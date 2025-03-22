@@ -1,0 +1,8 @@
+[package]
+name = "gamepad_input"
+version = "0.1.0"
+edition = "2021"
+link = "Xinput"
+
+[dependencies]
+windows_error_handling = {version = "0.1.0", path = "../windows_error_handling/"}
