@@ -5,4 +5,4 @@ edition = "2021"
 link = "Xinput"
 
 [dependencies]
-windows_error_handling = {version = "0.1.0", path = "../windows_error_handling/"}
+windows_error_handling = {version = "0.1.0", git = "https://github.com/NikhilNathanael/windows_error_handling"}
