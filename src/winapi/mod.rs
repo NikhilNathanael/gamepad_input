@@ -5,13 +5,13 @@ mod xinput {
 	#[repr(C)]
 	#[derive(Debug, Clone, Copy)]
 	pub struct XINPUT_GAMEPAD {
-	  pub wButtons: WORD,
-	  pub bLeftTrigger: BYTE,
-	  pub bRightTrigger: BYTE,
-	  pub sThumbLX: SHORT,
-	  pub sThumbLY: SHORT,
-	  pub sThumbRX: SHORT,
-	  pub sThumbRY: SHORT,
+		pub wButtons: WORD,
+		pub bLeftTrigger: BYTE,
+		pub bRightTrigger: BYTE,
+		pub sThumbLX: SHORT,
+		pub sThumbLY: SHORT,
+		pub sThumbRX: SHORT,
+		pub sThumbRY: SHORT,
 	}
 	pub type PXINPUT_GAMEPAD = *mut XINPUT_GAMEPAD;
 
