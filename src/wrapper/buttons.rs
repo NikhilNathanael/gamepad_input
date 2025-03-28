@@ -19,9 +19,20 @@ impl GamePadButton {
 	pub const YBUTTON		: GamePadButton	= GamePadButton(0x8000);
 }
 
+impl std::ops::BitOr<GamePadButton> for GamePadButton {
+	type Output = Self;
+	fn bitor(self, other: GamePadButton) -> Self::Output {
+		GamePadButton(self.0 | other.0)
+	}
+}
+
 impl GamePadButton {
 	pub fn from_u16(data: u16) -> Self {
 		Self(data)
+	}
+
+	pub fn into_u16(self) -> u16 {
+		self.0
 	}
 
 	pub fn is_pressed(self, button: GamePadButton) -> bool {

@@ -42,6 +42,7 @@ mod xinput {
 		// set vibration state of particular controller
 		// return value on success is ERROR_SUCCESS
 		// return value if controller is not connected is ERROR_DEVICE_NOT_CONNECTED
+		// any other return value is as defined in Winerror.h
 		// function does not use SetLastError to set error
 		pub fn XInputSetState (dwUserIndex: DWORD, pVibration: *mut XINPUT_VIBRATION) -> DWORD;
 	}
@@ -63,5 +64,6 @@ mod basic_types {
 mod error_constants {
 	use super::basic_types::*;
 	pub const ERROR_SUCCESS: DWORD = 0x0;
+	pub const ERROR_DEVICE_NOT_CONNECTED: DWORD = 0x48F;
 }
 
