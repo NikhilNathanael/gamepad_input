@@ -44,8 +44,6 @@ mod xinput {
 		// return value if controller is not connected is ERROR_DEVICE_NOT_CONNECTED
 		// function does not use SetLastError to set error
 		pub fn XInputSetState (dwUserIndex: DWORD, pVibration: *mut XINPUT_VIBRATION) -> DWORD;
-
-		pub fn XInputEnable (enable: BOOL);
 	}
 }
 pub use xinput::*;
