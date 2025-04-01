@@ -7,10 +7,10 @@ mod test {
 	use windows_error_handling::*;
 	use super::wrapper::*;
 	use crate::wrapper::buttons::*;
+
 	#[test]
 	fn test () {
-		let mut gamepad = XInputGamepad::new(0);
-		while gamepad.update() {
+		while let Some(gamepad) = XInputGamepad::get_state(0) {
 			eprintln!("{:?}", gamepad.buttons);
 		}
 	}

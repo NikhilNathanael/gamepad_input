@@ -26,6 +26,13 @@ impl std::ops::BitOr<GamePadButton> for GamePadButton {
 	}
 }
 
+impl std::ops::BitXor<GamePadButton> for GamePadButton {
+	type Output = Self;
+	fn bitxor(self, other: GamePadButton) -> Self::Output {
+		GamePadButton(self.0 ^ other.0)
+	}
+}
+
 impl GamePadButton {
 	pub fn from_u16(data: u16) -> Self {
 		Self(data)
@@ -42,11 +49,11 @@ impl GamePadButton {
 
 impl std::fmt::Debug for GamePadButton {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
-		f.write_str(&buttons.iter().filter(|x| self.is_pressed(x.0)).map(|x| x.1).collect::<Vec<_>>().join(" | "))
+		f.write_str(&BUTTONS.iter().filter(|x| self.is_pressed(x.0)).map(|x| x.1).collect::<Vec<_>>().join(" | "))
 	}
 }
 
-const buttons: [(GamePadButton, &str); 14] = [
+const BUTTONS: [(GamePadButton, &str); 14] = [
 	(GamePadButton::DPADUP, "GamePadButton::DPADUP"), 
 	(GamePadButton::DPADDOWN, "GamePadButton::DPADDOWN"),
 	(GamePadButton::DPADLEFT, "GamePadButton::DPADLEFT"),
