@@ -17,18 +17,18 @@ pub enum GamepadID {
 pub struct XInputGamepad {
 	pub id : GamepadID,
 	pub buttons: GamePadButton,
-	pub left_trigger: u8,
-	pub right_trigger: u8,
-	pub left_thumb: [i16;2],
-	pub right_thumb: [i16;2],
+	pub left_trigger: f32,
+	pub right_trigger: f32,
+	pub left_thumb: [f32;2],
+	pub right_thumb: [f32;2],
 }
 
 pub struct GamepadDiff {
 	pub buttons: GamePadButton,
-	pub left_trigger: i16,
-	pub right_trigger: i16,
-	pub left_thumb: [i32;2],
-	pub right_thumb: [i32;2],
+	pub left_trigger: f32,
+	pub right_trigger: f32,
+	pub left_thumb: [f32;2],
+	pub right_thumb: [f32;2],
 }
 
 impl XInputGamepad {
@@ -39,10 +39,10 @@ impl XInputGamepad {
 			Some(Self {
 				id,
 				buttons: GamePadButton::from_u16(gamepad.wButtons),
-				left_trigger: gamepad.bLeftTrigger,
-				right_trigger: gamepad.bRightTrigger,
-				left_thumb: [gamepad.sThumbLX, gamepad.sThumbLY],
-				right_thumb: [gamepad.sThumbRX, gamepad.sThumbRY],
+				left_trigger: gamepad.bLeftTrigger as f32 / u8::MAX as f32,
+				right_trigger: gamepad.bRightTrigger as f32 / u8::MAX as f32,
+				left_thumb: [gamepad.sThumbLX as f32 / i16::MAX as f32, gamepad.sThumbLY as f32 / i16::MAX as f32],
+				right_thumb: [gamepad.sThumbRX as f32 / i16::MAX as f32, gamepad.sThumbRY as f32 / i16::MAX as f32],
 			})
 		} else {
 			None
@@ -66,15 +66,15 @@ impl XInputGamepad {
 	pub fn diff(&self, other: &Self) -> GamepadDiff {
 		GamepadDiff {
 			buttons: self.buttons ^ other.buttons,
-			left_trigger: self.left_trigger as i16 - other.left_trigger as i16,
-			right_trigger: self.right_trigger as i16 - other.right_trigger as i16,
+			left_trigger: self.left_trigger - other.left_trigger,
+			right_trigger: self.right_trigger - other.right_trigger,
 			left_thumb: [
-				self.left_thumb[0] as i32 - other.left_thumb[0] as i32, 
-				self.left_thumb[1] as i32 - other.left_thumb[1] as i32
+				self.left_thumb[0] - other.left_thumb[0], 
+				self.left_thumb[1] - other.left_thumb[1]
 			],
 			right_thumb: [
-				self.right_thumb[0] as i32 - other.right_thumb[0] as i32, 
-				self.right_thumb[1] as i32 - other.right_thumb[1] as i32
+				self.right_thumb[0] - other.right_thumb[0], 
+				self.right_thumb[1] - other.right_thumb[1]
 			],
 		}
 	}
