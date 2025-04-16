@@ -80,36 +80,32 @@ impl XInputGamepad {
 	}
 }
 
+pub struct GamepadMap {
+	prev: [Option<XInputGamepad>; 4],
+	current: [Option<XInputGamepad>; 4],
+}
 
-mod gamepad_map {
-    use super::*;
-    pub struct GamepadMap {
-        prev: [Option<XInputGamepad>; 4],
-        current: [Option<XInputGamepad>; 4],
-    }
+impl GamepadMap {
+	pub fn new() -> Self {
+		Self {
+			prev: [None; 4],
+			current: [None; 4],
+		}
+	}
 
-    impl GamepadMap {
-        pub fn new() -> Self {
-            Self {
-                prev: [None; 4],
-                current: [None; 4],
-            }
-        }
+	pub fn current(&self, id: GamepadID) -> Option<&XInputGamepad> {
+		self.current[id as u32 as usize].as_ref()
+	}
 
-        pub fn current(&self, id: GamepadID) -> Option<&XInputGamepad> {
-            self.current[id as u32 as usize].as_ref()
-        }
+	pub fn prev(&self, id: GamepadID) -> Option<&XInputGamepad> {
+		self.prev[id as u32 as usize].as_ref()
+	}
 
-        pub fn prev(&self, id: GamepadID) -> Option<&XInputGamepad> {
-            self.prev[id as u32 as usize].as_ref()
-        }
-
-        pub fn update(&mut self) {
-            self.prev = self.current;
-            self.current[0] = XInputGamepad::get_state(GamepadID::Id0);
-            self.current[1] = XInputGamepad::get_state(GamepadID::Id1);
-            self.current[2] = XInputGamepad::get_state(GamepadID::Id2);
-            self.current[3] = XInputGamepad::get_state(GamepadID::Id3);
-        }
-    }
+	pub fn update(&mut self) {
+		self.prev = self.current;
+		self.current[0] = XInputGamepad::get_state(GamepadID::Id0);
+		self.current[1] = XInputGamepad::get_state(GamepadID::Id1);
+		self.current[2] = XInputGamepad::get_state(GamepadID::Id2);
+		self.current[3] = XInputGamepad::get_state(GamepadID::Id3);
+	}
 }
