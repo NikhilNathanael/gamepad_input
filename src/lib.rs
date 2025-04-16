@@ -10,7 +10,7 @@ mod test {
 
 	#[test]
 	fn test () {
-		while let Some(gamepad) = XInputGamepad::get_state(0) {
+		while let Some(gamepad) = XInputGamepad::get_state(GamepadID::Id0) {
 			eprintln!("{:?}", gamepad.buttons);
 		}
 	}

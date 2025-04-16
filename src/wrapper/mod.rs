@@ -6,10 +6,10 @@ use buttons::GamePadButton;
 #[repr(u32)]
 #[derive(Debug, Clone, Copy)]
 pub enum GamepadID {
-	Id_0 = 0,
-	Id_1 = 1,
-	Id_2 = 2,
-	Id_3 = 3,
+	Id0 = 0,
+	Id1 = 1,
+	Id2 = 2,
+	Id3 = 3,
 }
 
 #[repr(C)]
@@ -78,4 +78,38 @@ impl XInputGamepad {
 			],
 		}
 	}
+}
+
+
+mod gamepad_map {
+    use super::*;
+    pub struct GamepadMap {
+        prev: [Option<XInputGamepad>; 4],
+        current: [Option<XInputGamepad>; 4],
+    }
+
+    impl GamepadMap {
+        pub fn new() -> Self {
+            Self {
+                prev: [None; 4],
+                current: [None; 4],
+            }
+        }
+
+        pub fn current(&self, id: GamepadID) -> Option<&XInputGamepad> {
+            self.current[id as u32 as usize].as_ref()
+        }
+
+        pub fn prev(&self, id: GamepadID) -> Option<&XInputGamepad> {
+            self.prev[id as u32 as usize].as_ref()
+        }
+
+        pub fn update(&mut self) {
+            self.prev = self.current;
+            self.current[0] = XInputGamepad::get_state(GamepadID::Id_0);
+            self.current[1] = XInputGamepad::get_state(GamepadID::Id_1);
+            self.current[2] = XInputGamepad::get_state(GamepadID::Id_2);
+            self.current[3] = XInputGamepad::get_state(GamepadID::Id_3);
+        }
+    }
 }
